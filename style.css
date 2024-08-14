@@ -1,0 +1,37 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 50px;
+}
+
+table {
+    margin: 0 auto;
+    border-collapse: collapse;
+}
+
+td {
+    width: 70px;
+    height: 70px;
+    border: 1px solid #333;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 2em;
+}
+
+img {
+    width: 100%;
+    height: auto;
+}
+
+.win {
+    background-color: green;
+}
+
+.spin {
+    animation: fade 2s linear;
+}
+
+@keyframes fade {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
