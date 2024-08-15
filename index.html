@@ -34,20 +34,20 @@
             </div>
         </div>
     </div>
-    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO" crossorigin="anonymous"></script>
     <script>
         var winPercentage = 5; // Persentase kemenangan (20%)
         var JumlahBet = 500;
         var proses = true;
-        
-        Pusher.logToConsole = false;
-        var pusher = new Pusher('72c02cdab86cc52e6e5d', {
-            cluster: 'ap1'
+        let person = prompt("Masukan Nama Anda ?");
+        const socket = io("http://localhost:3333/kkn",{
+            query: {
+                level : "pemain",
+                nama: person
+            }
         });
-        var channel = pusher.subscribe('my-channel');
-        channel.bind('changePersentase', function(data) {
-            console.log(data)
-            winPercentage = data.persen ?? winPercentage;
+        socket.on("connect", () => {
+            console.log(socket.id); // x8WIv7-mJelg7on_ALbx
         });
         
     </script>
