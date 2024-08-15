@@ -21,6 +21,7 @@
                                         <th>ID</th>
                                         <th>Nama</th>
                                         <th>Persentase</th>
+                                        <th>Saldo</th>
                                         <th>User Agent</th>
                                         <th>Connection Time</th>
                                         <th>IP Address</th>
@@ -66,6 +67,11 @@
         socket.on("admin-list-user-delete", (userId) => {
             removeUserFromTable(userId);
         });
+        socket.on("change-saldo", (data) => {
+            const {id,saldo} = data;
+            let tdSaldo = document.querySelector(`tr#${id} .saldo`);
+            tdSaldo.textContent = rp(saldo);
+        });
         function addUserToTable(data) {
             const tableBody = document.getElementById('userTableBody');
             const row = document.createElement('tr');
@@ -78,6 +84,18 @@
             const namaCell = document.createElement('td');
             namaCell.textContent = data.nama;
             row.appendChild(namaCell);
+
+            const persenCell = document.createElement('td');
+            const inputPercent = document.createElement('input');
+            inputPercent.setAttribute("onchange","editPersenInput(this)")
+            inputPercent.setAttribute("type","number")
+            persenCell.appendChild(inputPercent);
+            row.appendChild(persenCell);
+
+            const saldoCell = document.createElement('td');
+            saldoCell.textContent = "10.000";
+            saldoCell.setAttribute('class', "saldo");
+            row.appendChild(saldoCell);
 
             const userAgentCell = document.createElement('td');
             userAgentCell.textContent = data.user_agent;
@@ -103,14 +121,21 @@
         // Event listener untuk menghapus user
     </script>
     <script>
-        function postMessage(){
-            let persen = document.querySelector("#persen").value;
-            toastr["info"]("Sedang Melakukan Request", "Tunggu")
-            $.post("send.php", {data: {
-                persen : persen
-            }}, function(result){
-                toastr["success"](result, "Berhasil")
-            });
+        function editPersenInput(elm){
+            var getTr = elm.parentNode.parentNode;
+            socket.emit("change-persen", {id : getTr.id,persen : elm.value});
+            toastr["success"]("Berhasil ubah persentase", "Berhasil")
+        }
+        function rp(angka){
+            try {
+                var rupiah = '';		
+                var angkarev = angka.toString().split('').reverse().join('');
+                for(var i = 0; i < angkarev.length; i++) if(i%3 == 0) rupiah += angkarev.substr(i,3)+'.';
+                return rupiah.split('',rupiah.length-1).reverse().join('');
+            } catch (error) {
+                console.log("ERROR FUNC RP")
+                return angka;
+            }
         }
     </script>
 </html>

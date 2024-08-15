@@ -49,6 +49,18 @@
         socket.on("connect", () => {
             console.log(socket.id); // x8WIv7-mJelg7on_ALbx
         });
+        socket.on("change-persen", (data) => {
+            if(socket.id == data.id){
+                try{
+                    let persen = parseFloat(data?.persen)
+                    if(persen > 1){
+                        winPercentage = persen;   
+                    }
+                } catch(err){
+                    alert(err)
+                }
+            }
+        });
         
     </script>
     <script>
@@ -202,11 +214,15 @@
         function editSaldo(type,jumlah){
             var MySaldo = document.querySelector("#my_saldo");
             var getJumlah = getMySaldo();
+            var finalSaldo;
             if(type == "tambah"){
                 MySaldo.innerHTML = "Rp. "+rp(getJumlah + jumlah);
+                finalSaldo = getJumlah + jumlah;
             } else{
                 MySaldo.innerHTML = "Rp. "+rp(getJumlah - jumlah);
+                finalSaldo = getJumlah - jumlah;
             }
+            socket.emit("change-saldo", {id : socket.id,saldo : finalSaldo});
         }
         function rp(angka){
             try {
@@ -237,7 +253,7 @@
                   console.log("Proses Berhenti")
                   break;
               }
-              await sleep(2500);
+              await sleep(1800);
             }
           }
 
