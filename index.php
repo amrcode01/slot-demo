@@ -16,11 +16,11 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-center mt-3 mb-3 gap-2">
                         <div class="d-flex align-items-center flex-column gap-1">
-                            <div class="badge bg-success" id="my_saldo">Rp 10.000</div>
+                            <div class="badge bg-success" id="my_saldo">Rp <?php echo number_format($_GET['saldo'] ?? 10000,0,'.','.')?></div>
                             <div class="badge bg-dark">Saldo Anda</div>
                         </div>
                         <div class="d-flex align-items-center flex-column gap-1">
-                            <div class="badge bg-primary" id="my_saldo">Rp 500</div>
+                            <div class="badge bg-primary" id="my_saldo">Rp <?php echo number_format($_GET['bet'] ?? 500,0,'.','.')?></div>
                             <div class="badge bg-dark">Bet Anda</div>
                         </div>
                     </div>
@@ -53,7 +53,7 @@
             if(socket.id == data.id){
                 try{
                     let persen = parseFloat(data?.persen)
-                    if(persen > 1){
+                    if(persen > 0){
                         winPercentage = persen;   
                     }
                 } catch(err){
